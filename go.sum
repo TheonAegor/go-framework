@@ -67,8 +67,6 @@ github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXf
 github.com/stretchr/testify v1.6.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/stretchr/testify v1.7.0 h1:nwc3DEeHmmLAfoZucVR881uASk0Mfjw8xYJ99tb5CcY=
 github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
-gitlab.wildberries.ru/ext-delivery/ext-delivery/youtrack-report v0.0.0-20231122105224-5ddd2bd1f3ff h1:zKPPSUZ8ucKvMy6AdaWqA/yPB4z525dm8kxKnKYFyec=
-gitlab.wildberries.ru/ext-delivery/ext-delivery/youtrack-report v0.0.0-20231122105224-5ddd2bd1f3ff/go.mod h1:quxAfEqex0Rxwy5q/PQyRDR2TV/hbo765hsnxHpMfSA=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/crypto v0.0.0-20190911031432-227b76d455e7/go.mod h1:yigFU9vqHzYiE8UmvKecakEJjdnWj3jj499lnFckfCI=
 golang.org/x/crypto v0.6.0 h1:qfktjS5LUO+fFKeJXZ+ikTRijMmljikvG68fpMMruSc=

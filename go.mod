@@ -5,7 +5,6 @@ go 1.21.4
 require (
 	dario.cat/mergo v1.0.0
 	github.com/hashicorp/vault/api v1.10.0
-	gitlab.wildberries.ru/ext-delivery/ext-delivery/youtrack-report v0.0.0-20231122105224-5ddd2bd1f3ff
 )
 
 require (

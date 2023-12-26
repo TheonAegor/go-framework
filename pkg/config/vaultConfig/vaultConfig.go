@@ -6,9 +6,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/TheonAegor/go-framework/pkg/config"
 	"github.com/hashicorp/vault/api"
-	"gitlab.wildberries.ru/ext-delivery/ext-delivery/youtrack-report/pkg/config"
-	"gitlab.wildberries.ru/ext-delivery/ext-delivery/youtrack-report/pkg/util"
 	"path/filepath"
 	"strconv"
 )
