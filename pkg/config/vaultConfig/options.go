@@ -31,7 +31,7 @@ func NamespacePath(namespacePath string) config.Option {
 
 type appPathKey struct{}
 
-func AppPath(appPath string) config.Option {
+func AppPaths(appPath []string) config.Option {
 	return config.SetOption(appPathKey{}, appPath)
 }
 

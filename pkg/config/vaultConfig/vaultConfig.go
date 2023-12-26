@@ -37,7 +37,7 @@ type vaultConfig struct {
 	opts          config.Options
 	cli           *api.Client
 	namespacePath string
-	appPath       string
+	appPaths      []string
 	roleID        string
 	secretID      string
 }
@@ -77,8 +77,8 @@ func (c *vaultConfig) Init(opts ...config.Option) error {
 			c.namespacePath = v
 		}
 
-		if v, ok := c.opts.Context.Value(appPathKey{}).(string); ok {
-			c.appPath = v
+		if v, ok := c.opts.Context.Value(appPathKey{}).([]string); ok {
+			c.appPaths = v
 		}
 
 		if v, ok := c.opts.Context.Value(roleIDKey{}).(string); ok {
@@ -140,23 +140,28 @@ func (c *vaultConfig) load(ctx context.Context) error {
 		return err
 	}
 
-	path := filepath.Clean(c.namespacePath + "/" + pathAdd + "/" + c.appPath)
-
-	pair, err := c.cli.Logical().Read(path)
-	if err != nil {
-		return fmt.Errorf("vault path %s not found %v", path, err)
-	} else if pair == nil || pair.Data == nil {
-		return fmt.Errorf("vault path %s not found %v", path, ErrPathNotExist)
-	}
-
 	data := make([]byte, 0)
-	switch version {
-	case vaultEngineVersionV1:
-		data, err = json.Marshal(pair.Data)
-	case vaultEngineVersionV2:
-		data, err = json.Marshal(pair.Data["data"])
-	default:
-		return ErrUnknownVersion
+
+	for _, appPath := range c.appPaths {
+		path := filepath.Clean(c.namespacePath + "/" + pathAdd + "/" + appPath)
+
+		pair, err := c.cli.Logical().Read(path)
+		if err != nil {
+			return fmt.Errorf("vault path %s not found %v", path, err)
+		} else if pair == nil || pair.Data == nil {
+			return fmt.Errorf("vault path %s not found %v", path, ErrPathNotExist)
+		}
+
+		d := make([]byte, 0)
+		switch version {
+		case vaultEngineVersionV1:
+			d, err = json.Marshal(pair.Data)
+		case vaultEngineVersionV2:
+			d, err = json.Marshal(pair.Data["data"])
+		default:
+			return ErrUnknownVersion
+		}
+		data = append(data, d...)
 	}
 
 	if err != nil {
