@@ -140,8 +140,6 @@ func (c *vaultConfig) load(ctx context.Context) error {
 		return err
 	}
 
-	data := make([]byte, 0)
-
 	for _, appPath := range c.appPaths {
 		path := filepath.Clean(c.namespacePath + "/" + pathAdd + "/" + appPath)
 
@@ -152,34 +150,33 @@ func (c *vaultConfig) load(ctx context.Context) error {
 			return fmt.Errorf("vault path %s not found %v", path, ErrPathNotExist)
 		}
 
-		d := make([]byte, 0)
+		data := make([]byte, 0)
 		switch version {
 		case vaultEngineVersionV1:
-			d, err = json.Marshal(pair.Data)
+			data, err = json.Marshal(pair.Data)
 		case vaultEngineVersionV2:
-			d, err = json.Marshal(pair.Data["data"])
+			data, err = json.Marshal(pair.Data["data"])
 		default:
 			return ErrUnknownVersion
 		}
-		data = append(data[:len(data)-1], d[1:]...)
-	}
 
-	if err != nil {
-		return err
-	}
+		if err != nil {
+			return err
+		}
 
-	src, err := util.Zero(c.opts.Struct)
-	if err != nil {
-		return err
-	}
+		src, err := util.Zero(c.opts.Struct)
+		if err != nil {
+			return err
+		}
 
-	err = c.opts.Codec.Unmarshal(data, src)
-	if err != nil {
-		return err
-	}
+		err = c.opts.Codec.Unmarshal(data, src)
+		if err != nil {
+			return err
+		}
 
-	if err = mergo.Merge(c.opts.Struct, src, mergo.WithOverride, mergo.WithTypeCheck, mergo.WithAppendSlice); err != nil {
-		return err
+		if err = mergo.Merge(c.opts.Struct, src, mergo.WithOverride, mergo.WithTypeCheck, mergo.WithAppendSlice); err != nil {
+			return err
+		}
 	}
 
 	for _, fn := range c.opts.AfterLoad {
