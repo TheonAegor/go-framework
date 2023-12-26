@@ -7,6 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/TheonAegor/go-framework/pkg/config"
+	"github.com/TheonAegor/go-framework/pkg/util"
 	"github.com/hashicorp/vault/api"
 	"path/filepath"
 	"strconv"
