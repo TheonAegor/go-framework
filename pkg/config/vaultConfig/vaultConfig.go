@@ -161,7 +161,7 @@ func (c *vaultConfig) load(ctx context.Context) error {
 		default:
 			return ErrUnknownVersion
 		}
-		data = append(data, d...)
+		data = append(data[:len(data)-1], d[1:]...)
 	}
 
 	if err != nil {
