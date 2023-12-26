@@ -13,6 +13,8 @@ import (
 	"strconv"
 )
 
+var _ config.Config = (*vaultConfig)(nil)
+
 const DefaultStructTag = "vault"
 
 var (
