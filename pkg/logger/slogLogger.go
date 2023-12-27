@@ -12,19 +12,19 @@ type slogLog struct {
 }
 
 func (s slogLog) Debug(ctx context.Context, msg string, v ...interface{}) {
-	s.l.DebugContext(ctx, msg, v...)
+	s.l.Log(ctx, loggerToSlogLevel(DebugLevel), msg, v...)
 }
 
 func (s slogLog) Info(ctx context.Context, msg string, v ...interface{}) {
-	s.l.InfoContext(ctx, msg, v...)
+	s.l.Log(ctx, loggerToSlogLevel(InfoLevel), msg, v...)
 }
 
 func (s slogLog) Warning(ctx context.Context, msg string, v ...interface{}) {
-	s.l.WarnContext(ctx, msg, v...)
+	s.l.Log(ctx, loggerToSlogLevel(DebugLevel), msg, v...)
 }
 
 func (s slogLog) Error(ctx context.Context, msg string, v ...interface{}) {
-	s.l.ErrorContext(ctx, msg, v...)
+	s.l.Log(ctx, loggerToSlogLevel(ErrorLevel), msg, v...)
 }
 
 func (s slogLog) Fatal(ctx context.Context, msg string, v ...interface{}) {
@@ -33,9 +33,13 @@ func (s slogLog) Fatal(ctx context.Context, msg string, v ...interface{}) {
 }
 
 func NewSlogLogger(opts ...Option) Loggerer {
-	sl := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	options := NewOptions(opts...)
 
-	return slogLog{l: sl, opts: NewOptions(opts...)}
+	sl := slog.New(slog.NewJSONHandler(options.Out, &slog.HandlerOptions{
+		Level: loggerToSlogLevel(options.Level),
+	}))
+
+	return slogLog{l: sl, opts: options}
 }
 
 func loggerToSlogLevel(level Level) slog.Level {
